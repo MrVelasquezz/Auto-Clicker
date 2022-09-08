@@ -52,13 +52,15 @@ if len(file_name) > 0:
                 result = re.split(pattern, parsed)
                 for x in result:
                     if(x.strip().startswith('Password')):
-                        arr.append(x.split(':')[1].strip())
+                        arr.append(x.split(':', 1)[1].strip())
 
                 if len(arr) > 0: 
-                    if len(pos1) == 2 and len(pos2) == 2: 
+                    if len(pos1) == 2 and len(pos2) == 2:
                         for x in arr: 
                             print('[+] Ввожу значение')
                             pya.moveTo(pos1[0], pos1[1])
+                            time.sleep(.2)
+                            pya.click()
                             time.sleep(.2)
                             pya.write(x, interval=0.01)
                             time.sleep(.2)
