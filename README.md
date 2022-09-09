@@ -1,4 +1,4 @@
-# Auto-Clicker
+p# Auto-Clicker
 
 <p align="center">
 ░█████╗░██╗░░██╗███████╗██╗░░██╗███████╗██████╗░
@@ -8,6 +8,8 @@
     ╚█████╔╝██║░░██║███████╗██║░╚██╗███████╗██║░░██║
     ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
 </p>
+<p align="right">
 made for Knafi, by MrVelasquezz
+</p>
 
 ### All instructions are inside of the script
