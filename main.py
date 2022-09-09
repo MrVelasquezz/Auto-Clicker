@@ -8,7 +8,9 @@ import time
 
 init(convert=True)
 
-pos1, pos2, entered, pix = [], [], 0, ''
+pos1, pos2, entered = [], [], 0
+
+activ, inactiv = [66, 58, 169], [78, 68, 206]
 
 def get_pos(x, y, btn, pressed):
     global pos1
@@ -21,7 +23,6 @@ def get_pos(x, y, btn, pressed):
         entered = 1
     if len(pos2) == 0 and entered == 0:
         pos2 = [x, y]
-        pix = pya.pixel(x, y)
         entered = 1
 
 print(f'''
@@ -50,7 +51,7 @@ print(f'[+] Координаты поля: {pos1[0], pos1[1]}')
 entered = 0
 
 input('Наведите курсор на поле кнопку ввода и кликните левой кнопкой, после нажмите Enter:::')
-print(f'[+] Координаты кнопки: {pos2[0], pos2[1], pix}')
+print(f'[+] Координаты кнопки: {pos2[0], pos2[1]}')
 
 listener.stop()
 
@@ -97,11 +98,10 @@ if len(file_name) > 0:
                             kb.write(x)
                             pya.moveTo(pos2[0], pos2[1])
                             pya.click()
-                            pya.moveTo(pos1[0], pos1[1])
-                            pya.click()
                             time.sleep(.5)
                             is_pix = pya.pixel(pos2[0], pos2[1])
-                            if is_pix[0] != pix[0] or is_pix[1] != pix[1] or is_pix[2] != pix[2]: 
+                            is_pix = [is_pix[0], is_pix[1], is_pix[2]]
+                            if is_pix != activ and is_pix != inactiv: 
                                 print(f'{Fore.GREEN}[+] Valid. Пароль {x} валиден{Style.RESET_ALL}')
                                 print(f'{Fore.YELLOW}[+] Записываю валид в файл{Style.RESET_ALL}')
                                 try:
@@ -110,9 +110,11 @@ if len(file_name) > 0:
                                         print(f'{Fore.GREEN}[+] Изменения успешно записаны в файл{Style.RESET_ALL}')
                                 except:
                                     print(f'{Fore.RED}[-] Ошибка при записи файла{Style.RESET_ALL}')
-                                print(f'{Fore.RED}У вас есть 5 секунд, что бы закрыть кошелек.{Style.RESET_ALL}')
-                                time.sleep(5)
+                                break 
+
                             else:
+                                pya.moveTo(pos1[0], pos1[1])
+                                pya.click()
                                 kb.press('ctrl+a')
                                 kb.release('ctrl+a')
                                 kb.press('backspace')
