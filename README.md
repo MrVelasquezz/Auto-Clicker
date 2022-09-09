@@ -1,4 +1,4 @@
-p# Auto-Clicker
+# Auto-Clicker
 
 <p align="center">
 ░█████╗░██╗░░██╗███████╗██╗░░██╗███████╗██████╗░
