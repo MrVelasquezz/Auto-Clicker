@@ -79,10 +79,10 @@ if len(file_name) > 0:
                             pya.moveTo(pos1[0], pos1[1])
                             pya.click()
                             time.sleep(.5)
-                            const is_pix = pya.pixelMatchesColor(pos1[0], pos1[0], (pix[0], pix[0], pix[0]))
+                            is_pix = pya.pixelMatchesColor(pos1[0], pos1[0], (pix[0], pix[0], pix[0]))
                             if is_pix is True: 
-                                print(f'[+] {Fore.GREEN}Valid.{Style.RESET_ALL} Пароль {x} валиден')
-                                print(f'[+] Записываю валид в файл')
+                                print(f'{Fore.GREEN}[+] Valid. Пароль {x} валиден{Style.RESET_ALL}')
+                                print(f'{Fore.YELLOW}[+] Записываю валид в файл{Style.RESET_ALL}')
                                 try:
                                     with open ('valid.txt', 'a') as v:
                                         v.write(f'[+] Valid: {x}')
@@ -95,11 +95,11 @@ if len(file_name) > 0:
                                 kb.press('backspace')
                                 print('[+] Кнопка нажата. Перезапуск цикла')
                 else:
-                    print('[-] Произошла ошибка. Не удалось извлечь значения.')
+                    print('{Fore.RED}[-] Произошла ошибка. Не удалось извлечь значения.{Style.RESET_ALL}')
                 #print(arr) 
             else:
-                print('[-] Файл пуст')
+                print('{Fore.RED}[-] Файл пуст{Style.RESET_ALL}')
     except FileNotFoundError:
-        print(f'[-] Файл {file_name} не найден')
+        print(f'{Fore.RED}[-] Файл {file_name} не найден{Style.RESET_ALL}')
     #except:
     #   print('[-] Произошла ошибка')
