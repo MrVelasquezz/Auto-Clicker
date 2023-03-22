@@ -1,3 +1,7 @@
+#
+# Made by MrVelasquezz
+#
+
 import pyautogui as pya
 from pynput import mouse
 from colorama import Fore, Style, init
